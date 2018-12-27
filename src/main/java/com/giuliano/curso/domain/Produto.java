@@ -25,7 +25,7 @@ public class Produto implements Serializable{
 	private Double preco;
 	
 	// Um produto pode possuir várias categorias.
-	@JsonBackReference
+	@JsonBackReference //  Evita referenciação cíclica.
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 			joinColumns = @JoinColumn(name="produto_id"),

@@ -17,13 +17,14 @@ import com.giuliano.curso.services.exceptions.ObjectNotFoundException;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
+	// Trata exceção quando o objeto da requisição não é encontrado.
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
 		
 		// Cria o objeto de erro padrão e envia este objeto como resposta usando o código
 		// 404 NOT FOUND.
 		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err); // Retorna a mensagem com status 404 contida em seu corpo os detalhes do erro.
 	}
 	
 	

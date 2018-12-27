@@ -17,11 +17,11 @@ public class Categoria implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // Geração da chave primária.
 	private Integer id;
 	private String nome;
 	
-	@JsonManagedReference
+	@JsonManagedReference // Evita referenciação cíclica.
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
@@ -81,6 +81,7 @@ public class Categoria implements Serializable{
 		this.produtos = produtos;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,6 +90,9 @@ public class Categoria implements Serializable{
 		return result;
 	}
 
+	/**
+	 * Comparação de objetos.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -12,7 +12,7 @@ import com.giuliano.curso.services.exceptions.ObjectNotFoundException;
 @Service
 public class CategoriaService {
 	
-	@Autowired
+	@Autowired // Instanciada automaticamente pelo spring
 	private CategoriaRepository repo;
 	
 	/**
