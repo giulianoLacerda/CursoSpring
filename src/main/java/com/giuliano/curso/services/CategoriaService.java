@@ -16,7 +16,7 @@ public class CategoriaService {
 	private CategoriaRepository repo;
 	
 	/**
-	 * Busca objeto pelo identificador.
+	 * Busca uma categoria pelo identificador.
 	 * @param id Identificador.
 	 * @return Categoria.
 	 */
@@ -27,9 +27,25 @@ public class CategoriaService {
 	}
 	
 	
+	/**
+	 * Inserção de uma nova categoria.
+	 * @param obj
+	 * @return
+	 */
 	public Categoria insert(Categoria obj) {
 		obj.setId(null); // Garante que o id é null para que não seja feita atualização ao invés de inserção.
 		return repo.save(obj);
+	}
+	
+	/**
+	 * Atualização de uma categoria existente.
+	 * @param obj
+	 * @return
+	 */
+	public Categoria update(Categoria obj) {
+		// Verifica se objeto existe ou não.
+		buscar(obj.getId());
+		return repo.save(obj); // Neste caso o id do objeto é mantido, pois a intenção é de atualizar este objeto.
 	}
 
 }
