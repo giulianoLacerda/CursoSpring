@@ -1,12 +1,15 @@
 package com.giuliano.curso.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.giuliano.curso.domain.Categoria;
 import com.giuliano.curso.repositories.CategoriaRepository;
+import com.giuliano.curso.services.exceptions.DataIntegrityException;
 import com.giuliano.curso.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -14,6 +17,14 @@ public class CategoriaService {
 	
 	@Autowired // Instanciada automaticamente pelo spring
 	private CategoriaRepository repo;
+	
+	/**
+	 * Retorna toda a lista de categorias.
+	 * @return
+	 */
+	public List<Categoria> categorias(){
+		return repo.findAll();
+	}
 	
 	/**
 	 * Busca uma categoria pelo identificador.
@@ -25,7 +36,7 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: "+id+", Tipo: "+Categoria.class.getName()));
 	}
-	
+
 	
 	/**
 	 * Inserção de uma nova categoria.
@@ -43,9 +54,24 @@ public class CategoriaService {
 	 * @return
 	 */
 	public Categoria update(Categoria obj) {
-		// Verifica se objeto existe ou não.
+		// Verifica se objeto existe.
 		buscar(obj.getId());
 		return repo.save(obj); // Neste caso o id do objeto é mantido, pois a intenção é de atualizar este objeto.
+	}
+	
+	
+	public void delete(Integer id) {
+		// Verifica se objeto existe.
+		buscar(id);
+		
+		try {
+			repo.deleteById(id);
+		}
+		catch (DataIntegrityViolationException e) { 
+			// Caso a categoria esteja relacionada à outros objetos, não permite exclusão e lança exceção.
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+			
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.giuliano.curso.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,12 @@ public class CategoriaResource {
 	
 	@Autowired
 	private CategoriaService service;
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<Categoria>> find() {
+		List<Categoria> obj = service.categorias();
+		return ResponseEntity.ok().body(obj);
+	}
 	
 	/**
 	 * Método será invocado quando houver uma requisição GET para "/categorias".
@@ -62,7 +69,17 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	
+	/**
+	 * Método para deletar uma categoria existente. Recebe o id da categoria
+	 * e então exclui a mesma.
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 	
 
 }

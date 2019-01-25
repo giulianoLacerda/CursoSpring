@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.giuliano.curso.services.exceptions.DataIntegrityException;
 import com.giuliano.curso.services.exceptions.ObjectNotFoundException;
 
 /**
@@ -25,6 +26,16 @@ public class ResourceExceptionHandler {
 		// 404 NOT FOUND.
 		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err); // Retorna a mensagem com status 404 contida em seu corpo os detalhes do erro.
+	}
+	
+	// Trata exceção quando o objeto da requisição não é encontrado.
+	@ExceptionHandler(DataIntegrityException.class)
+	public ResponseEntity<StandardError> objectNotFound(DataIntegrityException e, HttpServletRequest request){
+		
+		// Cria o objeto de erro padrão e envia este objeto como resposta usando o código
+		// 400 BAD REQUEST.
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err); // Retorna a mensagem com status 404 contida em seu corpo os detalhes do erro.
 	}
 	
 	
