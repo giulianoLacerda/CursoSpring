@@ -71,6 +71,7 @@ public class CursoSpringApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
+		// Cria categorias.
 		Categoria cat1 = new Categoria(null,"Informática");
 		Categoria cat2 = new Categoria(null,"Escritório");
 		Categoria cat3 = new Categoria(null,"Cama mesa e banho");
@@ -79,13 +80,16 @@ public class CursoSpringApplication implements CommandLineRunner{
 		Categoria cat6 = new Categoria(null,"Decoração");
 		Categoria cat7 = new Categoria(null,"Perfumaria");
 		
+		// Cria produtos.
 		Produto p1 = new Produto(null,"Computador",2000.00);
 		Produto p2 = new Produto(null,"Impressora",800.00);
 		Produto p3 = new Produto(null,"Mouse",80.00);
 		
+		// Adiciona produtos às categorias.
 		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 		
+		// Adiciona as categorias aos produtos.
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1,cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
