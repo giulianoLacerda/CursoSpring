@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.giuliano.curso.domain.Categoria;
@@ -18,13 +21,6 @@ public class CategoriaService {
 	@Autowired // Instanciada automaticamente pelo spring
 	private CategoriaRepository repo;
 	
-	/**
-	 * Retorna toda a lista de categorias.
-	 * @return
-	 */
-	public List<Categoria> categorias(){
-		return repo.findAll();
-	}
 	
 	/**
 	 * Busca uma categoria pelo identificador.
@@ -72,6 +68,27 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
 			
 		}
+	}
+	
+	/**
+	 * Retorna toda a lista de categorias.
+	 * @return
+	 */
+	public List<Categoria> categorias(){
+		return repo.findAll();
+	}
+	
+	/**
+	 * Paginação para busca de categorias.
+	 * @param page
+	 * @param linesPerPage
+	 * @param orderBy
+	 * @param direction
+	 * @return
+	 */
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
 	}
 
 }
