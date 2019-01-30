@@ -50,7 +50,7 @@ public class ClienteService {
 	 * @return
 	 */
 	public Cliente update(Cliente cli) {
-		// Verifica se o objeto existe.
+		// Obtém objeto do banco de dados.
 		Cliente newCli = buscar(cli.getId());
 		updateData(newCli, cli);
 		return repo.save(newCli);
