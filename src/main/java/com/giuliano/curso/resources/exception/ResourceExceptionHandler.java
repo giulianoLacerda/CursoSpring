@@ -31,7 +31,7 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err); // Retorna a mensagem com status 404 contida em seu corpo os detalhes do erro.
 	}
 	
-	// Trata exceção quando requisição não possui todos os campos necessários.
+	// Trata exceção quando objeto possui outras relações.
 	@ExceptionHandler(DataIntegrityException.class)
 	public ResponseEntity<StandardError> dataIntegrity(DataIntegrityException e, HttpServletRequest request){
 		
@@ -42,7 +42,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<StandardError> dataIntegrity(MethodArgumentNotValidException e, HttpServletRequest request){
+	public ResponseEntity<StandardError> argumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request){
 		
 		// Cria o objeto de erro padrão e envia este objeto como resposta usando o código
 		// 400 BAD REQUEST.
