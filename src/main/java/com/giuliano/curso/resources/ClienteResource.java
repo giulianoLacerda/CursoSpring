@@ -1,8 +1,6 @@
 package com.giuliano.curso.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.giuliano.curso.domain.Categoria;
 import com.giuliano.curso.domain.Cliente;
 import com.giuliano.curso.dto.ClienteDTO;
+import com.giuliano.curso.dto.ClienteNewDTO;
 import com.giuliano.curso.services.ClienteService;
 
 @RestController
@@ -45,12 +43,13 @@ public class ClienteResource {
 	 * @return
 	 */
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO obj){
-		Cliente objCategoria = service.insert(service.fromDTO(obj));
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO cliDTO){
+		// Converte ClienteNewDTO para Cliente e insere no banco.
+		Cliente objCliente = service.insert(service.fromDTO(cliDTO));
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(objCategoria.getId())
+				.buildAndExpand(objCliente.getId())
 				.toUri();
 		
 		return ResponseEntity.created(uri).build();
