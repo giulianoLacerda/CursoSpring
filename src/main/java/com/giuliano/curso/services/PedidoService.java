@@ -48,6 +48,7 @@ public class PedidoService {
 	
 	@Transactional
 	public Pedido insert(Pedido obj) {
+		// Seta os atributos do Pedido
 		obj.setId(null);
 		obj.setInstante(new Date());
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
