@@ -26,7 +26,7 @@ import com.giuliano.curso.services.exceptions.ObjectNotFoundException;
 public class ClienteService {
 	
 	@Autowired // Instanciada automaticamente pelo spring
-	private ClienteRepository repo;
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
@@ -37,7 +37,7 @@ public class ClienteService {
 	 * @return Cliente.
 	 */
 	public Cliente buscar(Integer id) {
-		Optional<Cliente> obj = repo.findById(id);
+		Optional<Cliente> obj = clienteRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: "+id+", Tipo: "+Cliente.class.getName()));
 	}
@@ -50,7 +50,7 @@ public class ClienteService {
 	@Transactional
 	public Cliente insert(Cliente cli) {
 		cli.setId(null); // Garante que o id é null para que não seja feita atualização.
-		repo.save(cli);
+		clienteRepository.save(cli);
 		enderecoRepository.saveAll(cli.getEnderecos());
 		return cli;
 	}
@@ -65,7 +65,7 @@ public class ClienteService {
 		// Obtém objeto do banco de dados.
 		Cliente newCli = buscar(cli.getId());
 		updateData(newCli, cli);
-		return repo.save(newCli);
+		return clienteRepository.save(newCli);
 	}
 	
 	
@@ -73,7 +73,7 @@ public class ClienteService {
 		// Verifica se o objeto existe.
 		buscar(id);
 		try {
-			repo.deleteById(id);
+			clienteRepository.deleteById(id);
 		}
 		catch(DataIntegrityViolationException e) {
 			// Caso o cliente esteja relacionado à outros objetos.
@@ -88,14 +88,14 @@ public class ClienteService {
 	 * @return
 	 */
 	public List<Cliente> clientes(){
-		return repo.findAll();
+		return clienteRepository.findAll();
 	}
 	
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage,
 			String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,
 				Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return clienteRepository.findAll(pageRequest);
 	}
 	
 	

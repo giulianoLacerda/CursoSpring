@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CursoSpringApplication<cursoSpring>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.giuliano.curso.CursoSpringApplication",
+            "projectName": "cursoSpring",
+            "args": ""
+        }
+    ]
+}
